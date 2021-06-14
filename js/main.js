@@ -48,7 +48,7 @@ class Carrito {
 // Creamos el array de videojuegos
 let juegos = [];
 
-$.getJSON("../json/data.json", (data, respuesta) => {
+$.getJSON("./json/data.json", (data, respuesta) => {
     if(respuesta === 'success'){
         console.log(data);
         juegos = data;
