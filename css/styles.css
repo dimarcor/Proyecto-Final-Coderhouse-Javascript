@@ -30,6 +30,7 @@ body {
     background-color: var(--blanco);
     font-size: 1.6rem;
     line-height: 2;
+    background-image: url(../img/fondos/fondo1.jpg);
 }
 
 
@@ -38,6 +39,7 @@ body {
 .contenedor {
     width: min(90%, 120rem);
     margin: 0 auto;
+    background-color: var(--blanco);
 }
 
 ul {
@@ -126,7 +128,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9;
+    z-index: 99999;
     width: 100%;
     background-color: var(--primario);
     box-shadow: 0px -32px 39px 46px rgba(0, 0, 0, 0.52);
@@ -243,6 +245,10 @@ footer {
     background-color: var(--primario);
     width: 100%;
     padding: 1rem;
+}
+
+footer .contenedor {
+    background-color: unset;
 }
 
 .footer {
@@ -492,6 +498,50 @@ footer {
 
 .search .search__title {
     text-align: center;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 90%;
+    margin: 3rem auto;
+}
+
+.search-bar__input {
+    padding: 1rem;
+    background: none;
+    border: 2px solid var(--primario);
+    border-radius: 1rem;
+}
+@media (min-width: 768px) {
+    .search-bar__input {
+        width: 50%;
+    }
+}
+
+.search-bar__button {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: unset;
+}
+
+.search-bar__icon {
+    color: var(--primario);
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.search .search__title {
+    text-align: center;
+}
+
+.busqueda-error {
+    font-size: 3rem;
 }
 
 /* Sort */
@@ -746,14 +796,12 @@ h2 {
     width: min(90%, 50rem);
     margin: 0 auto;
     padding: 2rem;
-    background-color: #fff;
-    border: 2px solid var(--gris);
 }
 
 .form__input, .form__textarea {
     margin-bottom: 1rem;
-    background: none;
-    border: 1px solid var(--gris);
+    background-color: var(--blanco);
+    border: 2px solid var(--gris);
 }
 @media (min-width: 768px) {
     .form__input:focus, .form__textarea:focus {
@@ -779,6 +827,7 @@ h2 {
     font-weight: 700;
     background-color: var(--secundario);
     border: none;
+    cursor: pointer;
 }
 @media (min-width: 768px) {
     .form__button {
@@ -930,4 +979,30 @@ h2 {
     font-size: 4rem;
     text-align: center;
     margin: 3rem;
+}
+
+
+/* ALERTAS */
+
+.alertas {
+    display: none;
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    height: 10rem;
+    width: fit-content;
+    padding: 2rem;
+    background: var(--secundario);
+}
+
+.alertas__añadir {
+    display: flex;
+        justify-content: center;
+        align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.alertas__añadir p {
+    color: #fff;
 }

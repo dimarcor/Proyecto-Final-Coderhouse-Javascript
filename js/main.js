@@ -16,16 +16,16 @@ let ordenJuegoMayorPrecio = document.getElementById('highPrice--game');
 // CLASES
 
 // Creamos clase para los videojuegos
-class Producto {
-    constructor(nombre, id, genero, precio, imagen) {
-        this.nombre = nombre;
-        this.id = id;
-        this.genero = genero;
-        this.precio = precio;
-        this.imagen = imagen;
-        this.vendido = false;
-    }
-}
+// class Producto {
+//     constructor(nombre, id, genero, precio, imagen) {
+//         this.nombre = nombre;
+//         this.id = id;
+//         this.genero = genero;
+//         this.precio = precio;
+//         this.imagen = imagen;
+//         this.vendido = false;
+//     }
+// }
 
 class Carrito {
     constructor(nombre, id, genero, precio, imagen) {
@@ -60,22 +60,43 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         let botonesCompra = document.getElementsByClassName('carritoBoton');
         for(const boton of botonesCompra) {
             boton.onclick = añadirCarrito;
+            // boton.onclick = ventanaProductos;
         }
+
+        // Función para mostrar ventana de productos añadidos al carrito
+        // let ventanaProdCarrito = document.getElementById('ventanaProductos');
+        // function ventanaProductos() {
+        //     ventanaProdCarrito.innerHTML = `<p>Se han añadido ${productosCarrito.length} producto/s al carrito</p>`
+        // }
         
         // Creamos el array para guardar los juegos que seleccione el usuario
         const carrito = [];
         
         // Funcion para que al hacer click en un producto, se guarde en el array y en memoria
+        const guardarLocal = (k,v) => localStorage.setItem(k,v);
         function añadirCarrito(e) {
             // Determino el id del boton presionado
             let seleccionado = e.target.id;
             // buscamos el id del producto relacionado con el boton
             let producto = juegos.find(objeto => `juego${objeto.id}` == seleccionado);
+            for(let i = 0; i < carrito.length; i++) {
+                if(carrito[i].id == producto.id) {
+                    return;
+                }
+            }
             // Incluimos el producto seleccionado al carrito
             carrito.push(producto);
-            const guardarLocal = (k,v) => localStorage.setItem(k,v);
+            console.log(carrito);
             guardarLocal('listaCarrito',JSON.stringify(carrito));
+            
+            // Mostramos alerta al añadir
+            $('.alertas').addClass('alerta--activa');
+            $('.alerta--activa').hide().fadeIn().delay(1000).fadeOut();
+            if($('.alertas').hasClass('alerta--activa')){
+                $('.alertas__añadir--texto').html(`Se ha añadido ${carrito.length} producto/s al carrito`);
+            }
         }
+        
         
         // Obtenemos el array del carrito guardado en consola, y lo generamos en la sección de carrito
         const obtenerListaCarrito = JSON.parse(localStorage.getItem('listaCarrito'));
@@ -100,10 +121,24 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         // Función para eliminar producto del carrito
+        let listaCarritoEliminar;
         function eliminarProdCarrito(e) {
             let seleccionado = e.target;
+            console.log(seleccionado);
             seleccionado.closest('.carritoContenedor').remove();
+            eliminarProdStorage();
             limpiarHTML(carritoPrecio);
+            generarTotalCarrito();
+        }
+        function eliminarProdStorage() {
+            listaCarritoEliminar = JSON.parse(localStorage.getItem('listaCarrito'));
+            console.log(listaCarritoEliminar);
+            let productoSeleccionado = listaCarritoEliminar.find(producto => producto.id == producto.id);
+            console.log(productoSeleccionado);
+            let productoIndice = listaCarritoEliminar.indexOf();
+            listaCarritoEliminar.splice(productoIndice, 1);
+            console.log(listaCarritoEliminar);
+            guardarLocal('listaCarrito',JSON.stringify(listaCarritoEliminar));
             generarTotalCarrito();
         }
         
@@ -119,6 +154,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             productosCarrito.length = 0;
             limpiarHTML(seccionCarrito);
             limpiarHTML(carritoPrecio);
+            localStorage.removeItem('listaCarrito');
             carritoPrecio.innerHTML = '$ 0.00';
         }
         
@@ -127,13 +163,13 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         
         // Capturamos el span para cambiar el precio según los productos
         let carritoPrecio = document.getElementById('carrito-total--precio');
-        
         function generarTotalCarrito() {
             let total = 0;
             for(const producto of productosCarrito) {
                 total += producto.precio;
                 limpiarHTML(carritoPrecio);
-                carritoPrecio.innerHTML = total;
+                totalLimpio = total.toFixed(2)
+                carritoPrecio.innerHTML = '$' + totalLimpio;
             }
         }
         generarTotalCarrito();
@@ -147,8 +183,9 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         function finalizarCompra() {
-            if(seccionCarrito !== '') {
+            if(seccionCarrito.innerHTML !== '') {
                 seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra">¡Gracias por tu compra!</p>';
+                localStorage.removeItem('listaCarrito');
             } else {
                 seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra--error">No tenés ningún producto en tu carrito.</p>';
             }
@@ -174,6 +211,9 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             for(const producto of array) {
                 crearHTML(producto);
             }
+            for(const boton of botonesCompra) {
+                boton.onclick = añadirCarrito;
+            }
         }
         }
         
@@ -193,6 +233,9 @@ $.getJSON("./json/data.json", (data, respuesta) => {
                 });
                 for(const producto of array) {
                     crearHTML(producto);
+                }
+                for(const boton of botonesCompra) {
+                    boton.onclick = añadirCarrito;
                 }
             }
         }
@@ -214,6 +257,9 @@ $.getJSON("./json/data.json", (data, respuesta) => {
                 for(const producto of array) {
                     crearHTML(producto);
                 }
+                for(const boton of botonesCompra) {
+                    boton.onclick = añadirCarrito;
+                }
             }
         }
         
@@ -234,7 +280,37 @@ $.getJSON("./json/data.json", (data, respuesta) => {
                 for(const producto of array) {
                     crearHTML(producto);
                 }
+                for(const boton of botonesCompra) {
+                    boton.onclick = añadirCarrito;
+                }
             }
+        }
+
+        // Barra de búsqueda
+        if(seccionJuegos !== null) {
+            const barraBusqueda = document.querySelector('#search-bar');
+            const botonBusqueda = document.querySelector('#search-bar__button');
+    
+            const filtrar = () => {
+                seccionJuegos.innerHTML = '';
+                console.log('Búsqueda: ' + barraBusqueda.value);
+                const texto = barraBusqueda.value.toLowerCase();
+                for(const producto of juegos) {
+                    let nombre = producto.nombre.toLowerCase();
+                    if(nombre.indexOf(texto) !== -1) {
+                        crearProducto(producto);
+                        for(const boton of botonesCompra) {
+                            boton.onclick = añadirCarrito;
+                        }
+                    }
+                }
+                if(seccionJuegos.innerHTML === '') {
+                    seccionJuegos.innerHTML += `
+                    <p class="busqueda-error">Producto no encontrado...</p>
+                    `
+                }
+            }
+            botonBusqueda.addEventListener('click', filtrar);
         }
         
         
@@ -245,7 +321,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         function crearProducto(objeto) {
             let contenedorJuego = document.createElement('article');
             contenedorJuego.classList.add('game');
-            contenedorJuego.id = `juegoID${objeto.id}`;
+            contenedorJuego.id = `${objeto.id}`;
             contenedorJuego.innerHTML = `<img class="game__img" src=${objeto.imagen} alt="${objeto.nombre}">
                                     <h2 class="game__title">${objeto.nombre}</h2>
                                     <div>
@@ -257,9 +333,21 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         function crearCarrito(objeto) {
+            // const productoTitulo = listCarrito.getElementsByClassName('carrito__title');
+            // console.log(productoTitulo);
+            // for (let i = 0; i < carrito.length; i++) {
+            //     if(productoTitulo[i].innerText === objeto.nombre) {
+            //         console.log('Ya has añadido este producto al carrito');
+            //         let alertaDuplicado = document.createElement('div');
+            //         alertaDuplicado.classList.add('alertaDuplicado');
+            //         alertaDuplicado.innerHTML = `<p>Ya has añadido este producto al carrito</p>`;
+            //         $('.alertas').appendChild(alertaDuplicado);
+            //         return;
+            //     }
+            // }
             let contenedorCarrito = document.createElement('div');
             contenedorCarrito.classList.add('carritoContenedor');
-            contenedorCarrito.id = `carritoID${objeto.id}`;
+            contenedorCarrito.id = `${objeto.id}`;
             contenedorCarrito.innerHTML = `<img class="carrito__img" src=${objeto.imagen} alt="${objeto.nombre}">
                                             <h2 class="carrito__title">${objeto.nombre}</h2>
                                             <p class="carrito__price">Price: $${objeto.precio}</p>
@@ -343,6 +431,8 @@ $('#form').on('submit', function(e) {
                 $('#form').append('<p style="display: none" class="form__correcto">Mensaje enviado correctamente</p>');
                 $('.form__correcto').fadeIn().delay(4000).fadeOut();
                 console.log(respuesta);
+                localStorage.setItem('datosUsuario',JSON.stringify(datos));
+                console.log(datos);
         }
     })
 
