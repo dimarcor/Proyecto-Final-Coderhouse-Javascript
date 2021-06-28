@@ -1,3 +1,28 @@
+// SLIDER AUTOMÁTICO
+let seccionCarousel = document.getElementsByClassName('carousel');
+if(seccionCarousel !== null) {
+window.addEventListener('load', function() { 
+        let imagenes = [];
+
+        imagenes[0] = "../img/carousel/carousel1.jpg";
+        imagenes[1] = "../img/carousel/carousel2.jpg";
+        imagenes[2] = "../img/carousel/carousel3.jpg";
+    
+        let indiceImagenes = 0;
+    
+        function cambiarImagenes() {
+            document.slider.src = imagenes[indiceImagenes];
+            if(indiceImagenes < 2) {
+                indiceImagenes++;
+            } else {
+                indiceImagenes = 0;
+            }
+        }
+        setInterval(cambiarImagenes, 5000);
+    });
+}
+
+// SECCIÓN DE PRODUCTOS Y CARRITO
 $().ready ( () => { 
 // VARIABLES
 let seccionJuegos = document.getElementById('games');
