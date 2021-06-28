@@ -350,7 +350,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             contenedorJuego.innerHTML = `<img class="game__img" src=${objeto.imagen} alt="${objeto.nombre}">
                                     <h2 class="game__title">${objeto.nombre}</h2>
                                     <div>
-                                        <p class="game__price">Price: ${objeto.precio}$</p>
+                                        <p class="game__price">Precio: ${objeto.precio}$</p>
                                         <button class="carritoBoton" type="button" id="juego${objeto.id}">Add to Cart</button>
                                     </div>`;
             seccionJuegos.append(contenedorJuego);
@@ -375,7 +375,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             contenedorCarrito.id = `${objeto.id}`;
             contenedorCarrito.innerHTML = `<img class="carrito__img" src=${objeto.imagen} alt="${objeto.nombre}">
                                             <h2 class="carrito__title">${objeto.nombre}</h2>
-                                            <p class="carrito__price">Price: $${objeto.precio}</p>
+                                            <p class="carrito__price">Precio: $${objeto.precio}</p>
                                             <button class="carrito__boton" type="button" id="carrito${objeto.id}">X</button>`;
             seccionCarrito.appendChild(contenedorCarrito);
             $('.carritoContenedor').hide().fadeIn();
