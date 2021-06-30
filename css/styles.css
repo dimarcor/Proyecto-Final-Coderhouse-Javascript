@@ -329,6 +329,34 @@ footer .contenedor {
 
 /* INDEX.HTML */
 
+/* SCROLL */
+
+.btn-scroll {
+    display: none;
+}
+@media (min-width: 768px) {
+    .btn-scroll {
+        display: flex;
+            justify-content: center;
+        transform: translateY(-10rem);
+    }
+    
+    .fa-chevron-down {
+        font-size: 5rem;
+        color: var(--primario);
+
+        animation-name: efecto_flecha;
+        animation-iteration-count: infinite;
+        animation-duration: 1s;
+    }
+    @keyframes efecto_flecha {
+        0%{transform: translateY()}
+        50%{transform: translateY(2rem)}
+        100%{transform: translateY(initial)}
+    }
+}
+
+
 /* Carousel */
 
 .carousel {
