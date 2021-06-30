@@ -4,9 +4,9 @@ if(seccionCarousel !== null) {
 window.addEventListener('load', function() { 
         let imagenes = [];
 
-        imagenes[0] = "../img/carousel/carousel1.jpg";
-        imagenes[1] = "../img/carousel/carousel2.jpg";
-        imagenes[2] = "../img/carousel/carousel3.jpg";
+        imagenes[0] = "./img/carousel/carousel1.jpg";
+        imagenes[1] = "./img/carousel/carousel2.jpg";
+        imagenes[2] = "./img/carousel/carousel3.jpg";
     
         let indiceImagenes = 0;
     
