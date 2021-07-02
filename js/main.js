@@ -1,27 +1,3 @@
-// SLIDER AUTOMÁTICO
-let seccionCarousel = document.getElementsByClassName('carousel');
-if(seccionCarousel !== null) {
-window.addEventListener('load', function() { 
-        let imagenes = [];
-
-        imagenes[0] = "./img/carousel/carousel1.jpg";
-        imagenes[1] = "./img/carousel/carousel2.jpg";
-        imagenes[2] = "./img/carousel/carousel3.jpg";
-    
-        let indiceImagenes = 0;
-    
-        function cambiarImagenes() {
-            document.slider.src = imagenes[indiceImagenes];
-            if(indiceImagenes < 2) {
-                indiceImagenes++;
-            } else {
-                indiceImagenes = 0;
-            }
-        }
-        setInterval(cambiarImagenes, 5000);
-    });
-}
-
 // SECCIÓN DE PRODUCTOS Y CARRITO
 $().ready ( () => { 
 // VARIABLES
@@ -126,14 +102,19 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         // Obtenemos el array del carrito guardado en consola, y lo generamos en la sección de carrito
         const obtenerListaCarrito = JSON.parse(localStorage.getItem('listaCarrito'));
         const productosCarrito = [];
-        if(seccionCarrito !== null) {
-            for(const objetos of obtenerListaCarrito) {
-                productosCarrito.push(new Carrito(objetos.nombre, objetos.id, objetos.genero, objetos.precio, objetos.imagen));
-            }
-            for(const productos of productosCarrito) {
-                crearCarrito(productos);
+        if(obtenerListaCarrito === null) {
+            return;
+        } else {
+            if(seccionCarrito !== null) {
+                for(const objetos of obtenerListaCarrito) {
+                    productosCarrito.push(new Carrito(objetos.nombre, objetos.id, objetos.genero, objetos.precio, objetos.imagen));
+                }
+                for(const productos of productosCarrito) {
+                    crearCarrito(productos);
+                }
             }
         }
+        
         
         
         // ELIMINAR PRODUCTOS
@@ -152,7 +133,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             console.log(seleccionado);
             seleccionado.closest('.carritoContenedor').remove();
             eliminarProdStorage();
-            limpiarHTML(carritoPrecio);
+            let total = 0;
             generarTotalCarrito();
         }
         function eliminarProdStorage() {
@@ -208,11 +189,23 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         function finalizarCompra() {
-            if(seccionCarrito.innerHTML !== '') {
-                seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra">¡Gracias por tu compra!</p>';
-                localStorage.removeItem('listaCarrito');
-            } else {
+            const listaProdFinal = JSON.parse(localStorage.getItem('listaCarrito'));
+            console.log(listaProdFinal);
+            if(listaProdFinal === null) {
                 seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra--error">No tenés ningún producto en tu carrito.</p>';
+                return;
+            } else {
+                if(listaProdFinal.length !== 0) {
+                    seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra">¡Gracias por tu compra!</p>';
+                    let total = 0;
+            for(const producto of listaProdFinal) {
+                total += producto.precio;
+                limpiarHTML(carritoPrecio);
+                totalLimpio = total.toFixed(2)
+                carritoPrecio.innerHTML = '$' + totalLimpio;
+            }
+                    localStorage.removeItem('listaCarrito');
+                }
             }
         }
         
