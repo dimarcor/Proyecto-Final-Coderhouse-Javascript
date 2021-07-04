@@ -631,6 +631,20 @@ footer .contenedor {
     margin-right: 0;
 }
 
+.search__btn {
+    background: none;
+    color: var(--secundario);
+    border: none;
+    text-transform: unset;
+    width: initial;
+}
+.search__btn:active {
+    background: none;
+    color: var(--secundario);
+    border: none;
+    transform: none;
+}
+
 /* Juegos */
 
 .games {

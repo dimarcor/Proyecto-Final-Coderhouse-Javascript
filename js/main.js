@@ -436,7 +436,8 @@ $('#form').on('submit', function(e) {
 
     const { nombre, email, mensaje } = datos;
 
-    if(nombre === '' || email === '' || mensaje === '' ) {
+    
+    if(nombre === '' || email === '' || mensaje === '') {
         console.log('Al menos un campo esta vacio');
         $('#form').append('<p style="display: none" class="form__error">Todos los campos son obligatorios</p>');
         $('.form__error').fadeIn().delay(4000).fadeOut();
