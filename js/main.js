@@ -1,33 +1,11 @@
 // SECCIÓN DE PRODUCTOS Y CARRITO
-$().ready ( () => { 
-// VARIABLES
-let seccionJuegos = document.getElementById('games');
+$().ready ( () => {
 // Guardar las secciones para generar el HTML
+let seccionJuegos = document.getElementById('games');
 const seccionCarrito = document.getElementById('listCarrito');
 
 
-// Guardar botones en variables
-
-// Juegos
-let ordenJuegoAZ = document.getElementById('a-z--game');
-let ordenJuegoZA = document.getElementById('z-a--game');
-let ordenJuegoMenorPrecio = document.getElementById('lowPrice--game');
-let ordenJuegoMayorPrecio = document.getElementById('highPrice--game');
-
-// CLASES
-
-// Creamos clase para los videojuegos
-// class Producto {
-//     constructor(nombre, id, genero, precio, imagen) {
-//         this.nombre = nombre;
-//         this.id = id;
-//         this.genero = genero;
-//         this.precio = precio;
-//         this.imagen = imagen;
-//         this.vendido = false;
-//     }
-// }
-
+// Creamos la clase para el carrito
 class Carrito {
     constructor(nombre, id, genero, precio, imagen) {
         this.nombre = nombre;
@@ -38,10 +16,6 @@ class Carrito {
         this.vendido = false;
     }
 }
-
-
-
-// Creamos la clase para el carrito
 
 
 // ARRAYS
@@ -61,14 +35,8 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         let botonesCompra = document.getElementsByClassName('carritoBoton');
         for(const boton of botonesCompra) {
             boton.onclick = añadirCarrito;
-            // boton.onclick = ventanaProductos;
         }
 
-        // Función para mostrar ventana de productos añadidos al carrito
-        // let ventanaProdCarrito = document.getElementById('ventanaProductos');
-        // function ventanaProductos() {
-        //     ventanaProdCarrito.innerHTML = `<p>Se han añadido ${productosCarrito.length} producto/s al carrito</p>`
-        // }
         
         // Creamos el array para guardar los juegos que seleccione el usuario
         const carrito = [];
@@ -116,9 +84,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         
-        
         // ELIMINAR PRODUCTOS
-        
         
         // Damos funcionalidad para borrar un producto del carrito
         let botonEliminarProd = document.getElementsByClassName('carrito__boton');
@@ -155,6 +121,7 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             botonVaciarCarrito.onclick = vaciarCarrito;
         }
         
+
         // Función para vaciar el carrito
         function vaciarCarrito() {
             productosCarrito.length = 0;
@@ -209,9 +176,12 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             }
         }
         
-        // FUNCIONES
-        
         // Apartado Juegos
+        let ordenJuegoAZ = document.getElementById('a-z--game');
+        let ordenJuegoZA = document.getElementById('z-a--game');
+        let ordenJuegoMenorPrecio = document.getElementById('lowPrice--game');
+        let ordenJuegoMayorPrecio = document.getElementById('highPrice--game');
+
         // Evento para ordenar A-Z
         if(seccionJuegos !== null) {
             ordenJuegoAZ.onclick = () => ordenarAZ(seccionJuegos,juegos,crearProducto);
@@ -334,7 +304,6 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         
         // Apartado carrito
         
-        
         // Generar el HTML de cada videojuego
         function crearProducto(objeto) {
             let contenedorJuego = document.createElement('article');
@@ -351,18 +320,6 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         function crearCarrito(objeto) {
-            // const productoTitulo = listCarrito.getElementsByClassName('carrito__title');
-            // console.log(productoTitulo);
-            // for (let i = 0; i < carrito.length; i++) {
-            //     if(productoTitulo[i].innerText === objeto.nombre) {
-            //         console.log('Ya has añadido este producto al carrito');
-            //         let alertaDuplicado = document.createElement('div');
-            //         alertaDuplicado.classList.add('alertaDuplicado');
-            //         alertaDuplicado.innerHTML = `<p>Ya has añadido este producto al carrito</p>`;
-            //         $('.alertas').appendChild(alertaDuplicado);
-            //         return;
-            //     }
-            // }
             let contenedorCarrito = document.createElement('div');
             contenedorCarrito.classList.add('carritoContenedor');
             contenedorCarrito.id = `${objeto.id}`;
@@ -374,7 +331,6 @@ $.getJSON("./json/data.json", (data, respuesta) => {
             $('.carritoContenedor').hide().fadeIn();
         }
         
-        
         // Eliminar el HTML generado
         function limpiarHTML(seccion) {
             seccion.innerHTML='';
@@ -382,36 +338,6 @@ $.getJSON("./json/data.json", (data, respuesta) => {
     }
 })
 console.log(juegos);
-
-/*
-juegos.push(new Producto('FIFA 21', 1, 'deportes', 59.99, 'img/games/game1.jpg'));
-juegos.push(new Producto('Call of Duty: Cold War', 2, 'fps', 69.99, 'img/games/game2.jpg'));
-juegos.push(new Producto("Assassin's Creed", 3, 'aventura', 89.99, 'img/games/game3.jpg'));
-juegos.push(new Producto('Cyberpunk 2077', 4, 'aventura', 29.99, 'img/games/game4.jpg'));
-juegos.push(new Producto('Battlefield V', 5, 'fps', 59.99, 'img/games/game5.jpg'));
-juegos.push(new Producto('The Last Of Us II', 6, 'horror', 59.99, 'img/games/game6.jpg'));
-juegos.push(new Producto('Resident Evil VIII', 7, 'horror', 79.99, 'img/games/game7.jpg'));
-juegos.push(new Producto('Red Dead Redemption 2', 8, 'aventura', 29.99, 'img/games/game8.jpg'));
-juegos.push(new Producto('PES 2021', 9, 'deportes', 19.99, 'img/games/game9.jpg'));
-juegos.push(new Producto('ARK', 10, 'aventura', 69.99, 'img/games/game10.jpg'));
-juegos.push(new Producto('HALO: Infinite', 11, 'fps', 89.99, 'img/games/game11.jpg'));
-juegos.push(new Producto('Animal Crossing', 12, 'simulador', 49.99, 'img/games/game12.jpg'));
-juegos.push(new Producto('GTA V', 13, 'accion', 39.99, 'img/games/game13.jpg'));
-juegos.push(new Producto('Uncharted 4', 14, 'aventura', 39.99, 'img/games/game14.jpg'));
-juegos.push(new Producto('Minecraft', 15, 'aventura', 19.99, 'img/games/game15.jpg'));
-juegos.push(new Producto('Age Of Empires IV', 16, 'estrategia', 39.99, 'img/games/game16.jpg'));
-juegos.push(new Producto('Dragon Ball Xenoverse', 17, 'accion', 19.99, 'img/games/game17.jpg'));
-juegos.push(new Producto('Chivalry II', 18, 'accion', 79.99, 'img/games/game18.jpg'));
-juegos.push(new Producto('Far Cry 6', 19, 'aventura', 89.99, 'img/games/game19.jpg'));
-juegos.push(new Producto('God Of War IV', 20, 'aventura', 49.99, 'img/games/game20.jpg'));
-*/
-
-
-
-// Dando funcionalidad al carrito de compras
-
-// Guardamos los botones de los juegos para darles eventos
-
 }) // Final ejecución ready
 
 

@@ -342,7 +342,7 @@ footer .contenedor {
     .btn-scroll {
         display: flex;
             justify-content: center;
-        transform: translateY(-10rem);
+        transform: translateY(15rem);
     }
     
     .fa-chevron-down {
