@@ -84,98 +84,6 @@ $.getJSON("./json/data.json", (data, respuesta) => {
         }
         
         
-        // ELIMINAR PRODUCTOS
-        
-        // Damos funcionalidad para borrar un producto del carrito
-        let botonEliminarProd = document.getElementsByClassName('carrito__boton');
-        for(const botones of botonEliminarProd) {
-            botones.onclick = eliminarProdCarrito;
-        }
-        
-        // Función para eliminar producto del carrito
-        let listaCarritoEliminar;
-        function eliminarProdCarrito(e) {
-            let seleccionado = e.target;
-            console.log(seleccionado);
-            seleccionado.closest('.carritoContenedor').remove();
-            eliminarProdStorage();
-            let total = 0;
-            generarTotalCarrito();
-        }
-        function eliminarProdStorage() {
-            listaCarritoEliminar = JSON.parse(localStorage.getItem('listaCarrito'));
-            console.log(listaCarritoEliminar);
-            let productoSeleccionado = listaCarritoEliminar.find(producto => producto.id == producto.id);
-            console.log(productoSeleccionado);
-            let productoIndice = listaCarritoEliminar.indexOf();
-            listaCarritoEliminar.splice(productoIndice, 1);
-            console.log(listaCarritoEliminar);
-            guardarLocal('listaCarrito',JSON.stringify(listaCarritoEliminar));
-            generarTotalCarrito();
-        }
-        
-        
-        // Damos funcionalidad para vaciar todos los productos del carrito
-        if(seccionCarrito !== null) {
-            let botonVaciarCarrito = document.getElementById('carrito__vaciar');
-            botonVaciarCarrito.onclick = vaciarCarrito;
-        }
-        
-
-        // Función para vaciar el carrito
-        function vaciarCarrito() {
-            productosCarrito.length = 0;
-            limpiarHTML(seccionCarrito);
-            limpiarHTML(carritoPrecio);
-            localStorage.removeItem('listaCarrito');
-            carritoPrecio.innerHTML = '$ 0.00';
-        }
-        
-        
-        // MOSTRAR TOTAL
-        
-        // Capturamos el span para cambiar el precio según los productos
-        let carritoPrecio = document.getElementById('carrito-total--precio');
-        function generarTotalCarrito() {
-            let total = 0;
-            for(const producto of productosCarrito) {
-                total += producto.precio;
-                limpiarHTML(carritoPrecio);
-                totalLimpio = total.toFixed(2)
-                carritoPrecio.innerHTML = '$' + totalLimpio;
-            }
-        }
-        generarTotalCarrito();
-        
-        
-        // FINALIZAR COMPRA
-        
-        let botonComprar = document.getElementById('carrito__comprar');
-        if(seccionCarrito !== null) {
-            botonComprar.onclick = finalizarCompra;
-        }
-        
-        function finalizarCompra() {
-            const listaProdFinal = JSON.parse(localStorage.getItem('listaCarrito'));
-            console.log(listaProdFinal);
-            if(listaProdFinal === null) {
-                seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra--error">No tenés ningún producto en tu carrito.</p>';
-                return;
-            } else {
-                if(listaProdFinal.length !== 0) {
-                    seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra">¡Gracias por tu compra!</p>';
-                    let total = 0;
-            for(const producto of listaProdFinal) {
-                total += producto.precio;
-                limpiarHTML(carritoPrecio);
-                totalLimpio = total.toFixed(2)
-                carritoPrecio.innerHTML = '$' + totalLimpio;
-            }
-                    localStorage.removeItem('listaCarrito');
-                }
-            }
-        }
-        
         // Apartado Juegos
         let ordenJuegoAZ = document.getElementById('a-z--game');
         let ordenJuegoZA = document.getElementById('z-a--game');
@@ -299,6 +207,100 @@ $.getJSON("./json/data.json", (data, respuesta) => {
                 }
             }
             botonBusqueda.addEventListener('click', filtrar);
+        }
+
+        // CARRITO
+
+        // ELIMINAR PRODUCTOS
+        
+        // Damos funcionalidad para borrar un producto del carrito
+        let botonEliminarProd = document.getElementsByClassName('carrito__boton');
+        for(const botones of botonEliminarProd) {
+            botones.onclick = eliminarProdCarrito;
+        }
+        
+        // Función para eliminar producto del carrito
+        let listaCarritoEliminar;
+        function eliminarProdCarrito(e) {
+            let seleccionado = e.target;
+            console.log(seleccionado);
+            seleccionado.closest('.carritoContenedor').remove();
+            eliminarProdStorage();
+            let total = 0;
+            generarTotalCarrito();
+        }
+        function eliminarProdStorage() {
+            listaCarritoEliminar = JSON.parse(localStorage.getItem('listaCarrito'));
+            console.log(listaCarritoEliminar);
+            let productoSeleccionado = listaCarritoEliminar.find(producto => producto.id == producto.id);
+            console.log(productoSeleccionado);
+            let productoIndice = listaCarritoEliminar.indexOf();
+            listaCarritoEliminar.splice(productoIndice, 1);
+            console.log(listaCarritoEliminar);
+            guardarLocal('listaCarrito',JSON.stringify(listaCarritoEliminar));
+            generarTotalCarrito();
+        }
+        
+        
+        // Damos funcionalidad para vaciar todos los productos del carrito
+        if(seccionCarrito !== null) {
+            let botonVaciarCarrito = document.getElementById('carrito__vaciar');
+            botonVaciarCarrito.onclick = vaciarCarrito;
+        }
+        
+
+        // Función para vaciar el carrito
+        function vaciarCarrito() {
+            productosCarrito.length = 0;
+            limpiarHTML(seccionCarrito);
+            limpiarHTML(carritoPrecio);
+            localStorage.removeItem('listaCarrito');
+            carritoPrecio.innerHTML = '$ 0.00';
+        }
+        
+        
+        // MOSTRAR TOTAL
+        
+        // Capturamos el span para cambiar el precio según los productos
+        let carritoPrecio = document.getElementById('carrito-total--precio');
+        function generarTotalCarrito() {
+            let total = 0;
+            for(const producto of productosCarrito) {
+                total += producto.precio;
+                limpiarHTML(carritoPrecio);
+                totalLimpio = total.toFixed(2)
+                carritoPrecio.innerHTML = '$' + totalLimpio;
+            }
+        }
+        generarTotalCarrito();
+        
+        
+        // FINALIZAR COMPRA
+        
+        let botonComprar = document.getElementById('carrito__comprar');
+        if(seccionCarrito !== null) {
+            botonComprar.onclick = finalizarCompra;
+        }
+        
+        function finalizarCompra() {
+            const listaProdFinal = JSON.parse(localStorage.getItem('listaCarrito'));
+            console.log(listaProdFinal);
+            if(listaProdFinal === null) {
+                seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra--error">No tenés ningún producto en tu carrito.</p>';
+                return;
+            } else {
+                if(listaProdFinal.length !== 0) {
+                    seccionCarrito.innerHTML = '<p class="carrito__finalizar-compra">¡Gracias por tu compra!</p>';
+                    let total = 0;
+            for(const producto of listaProdFinal) {
+                total += producto.precio;
+                limpiarHTML(carritoPrecio);
+                totalLimpio = total.toFixed(2)
+                carritoPrecio.innerHTML = '$' + totalLimpio;
+            }
+                    localStorage.removeItem('listaCarrito');
+                }
+            }
         }
         
         
